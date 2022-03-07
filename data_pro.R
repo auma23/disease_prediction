@@ -1,0 +1,11 @@
+view(Training)
+head(Training)
+dim(Training)
+glimpse(Training)
+names(Training)
+table(Training$prognosis)
+dplyr::filter(Training,Training$prognosis=="AIDS")
+train_set<-Training[!complete.cases(Training),]
+train_set<-train_set[,-length(train_set)]
+dim(train_set)
+unique(train_set$prognosis)
