@@ -1,0 +1,24 @@
+---
+title: "pred_disease"
+author: "Auma Amwayi"
+date: "`r Sys.Date()`"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+**Problem definition**
+#we are intrested in predicting a disease based on the symptoms#
+
+**Import the required libraries**
+
+```{r  }
+library(tidyverse)
+library(randomForest)
+
+```
+
+
