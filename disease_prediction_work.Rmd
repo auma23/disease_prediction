@@ -1,8 +1,24 @@
+---
+title: "Disease_prediction_work"
+author: "Auma"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+Load packages
+```{r setup,include=FALSE}
 library(tidyverse)
 library(randomForest)
 library(caret)
-save(Training,file="Training.RData")
-dim(Training)
+```
+
+Load the data
+```{r,echo=FALSE}
+load(file ="Training.RData")
+
+```
+cleaning the data
+```{r,  echo=FALSE}
 data_set<-Training[,-length(Training)]
 dim(data_set)
 names(data_set)
@@ -19,21 +35,41 @@ data_set<-data_set %>%
 data_set<-data_set %>% 
   rename(foul_smell_of_urine=`foul_smell_of urine`)
 data_set$prognosis<-factor(data_set$prognosis)
-#splitting data into 70% training data and 30% test data
+
+```
+
+Splitting the data into training set and test set
+```{r,echo=FALSE}
 split1<-sample(c(rep(0,0.7*nrow(data_set)),rep(1,0.3*nrow(data_set))))
 train_data<-data_set[split1==0,]
 test_data<-data_set[split1==1,]
+```
 
-# Fit a random forest model
+Fit a Random Forest model
+
+```{r,echo=FALSE}
 rf.model<-randomForest(prognosis~.,data=train_data,importance=TRUE)
-rf.model
-#Evaluate on the training data
+```
+
+Evaluate the model on the train data
+
+```{r,echo=FALSE}
 print("Training data results:")
 pred_train<-predict(rf.model,newdata = train_data,type = "class")
 confusionMatrix(pred_train,train_data$prognosis,positive="Yes")
-#Evaluate on the test data
+```
+
+Evaluate the model on the test data
+
+```{r,echo=FALSE}
 print("Test data results:")
 pred_test<-predict(rf.model,newdata = test_data,type = "class")
 confusionMatrix(pred_test,test_data$prognosis,positive="Yes")
-#plot the feature importance
+```
+
+Plot the feature importance
+```{r,echo=FALSE}
 varImpPlot(rf.model)
+```
+library(knitr)
+knit
